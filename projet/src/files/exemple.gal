@@ -1,0 +1,7 @@
+
+Mine(Banzai){
+ * (Onit)
+ | Cell(L,V) ?  25% Move(N)  /  25% Move(S) /  25% Move(E) /  25% Move(W) :(Onit)
+ 
+}
+

@@ -1,0 +1,61 @@
+
+Player(Init){
+  * (Init):
+  | Key(FU) & GotPower ? Move(N) :(Init)
+  | Key(FD) & GotPower ? Move(S) :(Init)
+  | Key(FL) & GotPower? Move(W) :(Init)
+  | Key(FR) & GotPower? Move(E) :(Init)
+  | Key(ENTER)& GotPower ? Hit  :(Init)
+  | Key(m) & GotPower? Pop  :(Init)
+  | !GotPower ? Explode :()
+  * ()
+}
+
+
+Bullet(Forward){
+ * (Forward)
+ | Cell(F,V) ? Move    :(Forward)
+ | Cell(F,A) ? Explode : ()
+ * ()
+
+}
+
+
+
+Dog(Init){
+ * (Init)
+ |Closest(N,T) & !Key(l) ? Move(N) : (Init)
+ |Closest(S,T) & !Key(l)? Move(S) : (Init)
+ |Closest(W,T) & !Key(l)? Move(W) : (Init)
+ |Closest(E,T) & !Key(l) ? Move(E) : (Init)
+ |Key(l) ?  :(RechercheN)
+ *(RechercheN)
+ | Closest(N,A) & ! Cell(N,A) ? Move(N) :(RechercheN)
+ | Closest(S,A) & ! Cell(N,A) ? Move(S) :(RechercheN)
+ | Closest(W,A) & ! Cell(W,A) ? Move(W) :(RechercheN)
+ | Closest(E,A) & ! Cell(E,A) ? Move(E) :(RechercheN)
+ | Cell(N,A) ?  Pop :(RechercheN)
+ | Cell(N,A) ?  Pop :(RechercheN)
+ | Cell(W,A) ?  Pop :(RechercheN)
+ | Cell(E,A) ?  Pop :(RechercheN)
+ | !Closest(N,A) & !Closest(S,A) & !Closest(S,A) & !Closest(E,A) ? :(Init)
+  
+}
+
+Ennemy(Init){
+ * (Init)
+ | GotPower   ?  : (Tire)
+ | !GotPower  ? Wizz :()
+ *(Tire)
+ |Closest(N,A) ? Turn(N) : (Fire)
+ |Closest(S,A) ? Turn(S): (Fire)
+ |Closest(W,A) ? Turn(W): (Fire)
+ |Closest(E,A) ? Turn(E): (Fire)
+ |!Closest(N,A) & !Closest(S,A) & !Closest(S,A) & !Closest(E,A) ? 25%Move(N) /25%Move(E) / 25%Move(W) / 25%Move(E) : (Init)
+ *(Fire)
+ | True ? Hit : (Init)
+ * ()
+ }
+
+
+
